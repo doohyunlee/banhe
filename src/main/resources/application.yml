@@ -1,1 +1,13 @@
-
+spring:
+  profiles:
+    active: local
+---
+spring:
+  datasource:
+    url: jdbc:mysql://db.dello.cc?zeroDateTimeBehavior=convertToNull
+    username: revu
+    password: f1reInThe$o1e
+    driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  type-aliases-package: com.banhe.system.mapper
+  mapper-locations: mybatis/mapper/**/*.xml

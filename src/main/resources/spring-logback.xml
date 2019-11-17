@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="180 seconds">
+
+    <property name="LOG_PATH" value="../../" />
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%date{yyyy-MM-dd:HH:mm:ss.SSS} %-5level %relative --- [%thread] %logger.%method\(%file:%line\) : %msg %n</Pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+    </appender>
+
+    <appender name="dailyRollingAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/normal.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%date{yyyy-MM-dd:HH:mm:ss.SSS} %-5level %relative --- [%thread] %logger.%method\(%file:%line\) : %msg %n</Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>normal.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
+            <maxHistory>5</maxHistory>
+        </rollingPolicy>
+    </appender>
+    <appender name="errorDailyRollingAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/normal-error.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%date{yyyy-MM-dd:HH:mm:ss.SSS} %-5level %relative --- [%thread] %logger.%method\(%file:%line\) : %msg %n</Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>normal.%d{yyyy-MM-dd}-error.log.gz</FileNamePattern>
+            <maxHistory>5</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="com.banhe.system" level="INFO" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="dailyRollingAppender"/>
+    </logger>
+    <root>
+        <level value="ERROR"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <logger name="org.springframework" level="INFO" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="dailyRollingAppender"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <!-- level DEBUG log output -->
+    <logger name="com.banhe.system" level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <root>
+        <level value="ERROR"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
